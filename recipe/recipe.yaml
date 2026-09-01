@@ -1,0 +1,48 @@
+schema_version: 1
+
+context:
+  name: jschon
+  version: "0.11.1"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: c0ca0beab1f1694a03d726b91ed75ec604a7787af3ae91ead765f78215bf149f
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - rfc3986
+
+tests:
+  - python:
+      imports:
+        - jschon
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  license: MIT
+  license_file: LICENSE
+  summary: An object-oriented JSON Schema implementation for Python.
+  description: An object-oriented JSON Schema implementation for Python.
+  homepage: https://github.com/marksparkza/jschon
+  repository: https://github.com/marksparkza/jschon
+
+extra:
+  recipe-maintainers:
+    - timkpaine
